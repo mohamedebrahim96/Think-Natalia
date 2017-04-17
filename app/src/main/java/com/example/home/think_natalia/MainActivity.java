@@ -25,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
     String insta = "https://www.instagram.com/thinknatalia/media/";
     MyRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
-    String[] data = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48"};
-    List<String> imgs = new ArrayList<String>();
+    List<String> imgs = new ArrayList<>();
     String img = "https://scontent-cai1-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/17932644_1291959330881402_7509993923306061824_n.jpg";
 
     @Override
@@ -34,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
-        for(int i=0;i<20;i++)
+        for(int i=0;i<40;i++)
         {
             imgs.add(i,img);
         }
 
         int mNoOfColumns = Utility.calculateNoOfColumns(getApplicationContext());
-        recyclerView.setLayoutManager(new GridLayoutManager(this, mNoOfColumns));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new MyRecyclerViewAdapter(this, imgs);
         recyclerView.setAdapter(adapter);
     }
