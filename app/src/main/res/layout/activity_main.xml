@@ -8,7 +8,9 @@
     android:orientation="vertical"
     tools:context="com.example.home.think_natalia.MainActivity">
 
-
-
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvNumbers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 </LinearLayout>
