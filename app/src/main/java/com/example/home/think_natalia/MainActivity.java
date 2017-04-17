@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                         recyclerView.setAdapter(adapter);
                         mProgressDialog.dismiss();
 
+                        
                         for (int i=0;i<20;i++) {
                             Log.i("Main Activity",imgs.get(i).getImage_Url());
                         }
