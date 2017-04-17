@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     String url = "http://www.thinknatalia.com/wp-json/wp/v2/posts?page=10";
+    String insta = "https://www.instagram.com/thinknatalia/media/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
