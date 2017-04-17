@@ -14,11 +14,12 @@ import java.util.List;
  */
 
 public class Json {
-    //List<String> links = new ArrayList<>();
 
-    public List jsonshow(String response)
+    List<Item> full_object = new ArrayList<>();
+
+
+    public void jsonshow(String response)
     {
-        List<String> links = new ArrayList<>();
         try {
             JSONObject jsonObj = new JSONObject(response);
             JSONArray items = jsonObj.getJSONArray("items");
@@ -29,16 +30,18 @@ public class Json {
 
                 JSONObject url = images.getJSONObject("standard_resolution");
                 String x = url.getString("url");
-                Log.i("xxxxxxxxx",x);
-                links.add(i,x);
+                String id = c.getString("id");
+                Log.i("Json id",id);
+                Item item = new Item();
+                item.setImage_Url(x);
+                item.setId(id);
+                full_object.add(i,item);
             }
-
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return links;
     }
 }

@@ -34,27 +34,36 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     String url = "http://www.thinknatalia.com/wp-json/wp/v2/posts?page=10";
-    String insta = "https://www.instagram.com/thinknatalia/media/";
     MyRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
+    Button button;
     ProgressDialog mProgressDialog;
-    List<String> imgs = new ArrayList<>();
-    //String img = "https://scontent-cai1-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/17932644_1291959330881402_7509993923306061824_n.jpg";
+    List<Item> imgs ;
+    Json json = new Json();
 
+
+    Item item= new Item();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
+        button = (Button) findViewById(R.id.btn);
+        final String insta = "https://www.instagram.com/thinknatalia/media/";
 
 
         //int mNoOfColumns = Utility.calculateNoOfColumns(getApplicationContext());
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-
-
-        volley();
+        volley(insta);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "max_id="+imgs.get(imgs.size()-1).getId(),Toast.LENGTH_LONG).show();
+                volley(insta+"?max_id="+imgs.get(imgs.size()-1).getId());
+            }
+        });
     }
-    public void volley()
+    public void volley(String url)
     {
 
         mProgressDialog = new ProgressDialog(MainActivity.this);
@@ -63,39 +72,23 @@ public class MainActivity extends AppCompatActivity {
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.show();
 
+
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(insta,
+        StringRequest stringRequest = new StringRequest(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        /*
-                        JSONObject jsonObj = null;
-                        try {
-                            jsonObj = new JSONObject(response);
-                            JSONArray items = jsonObj.getJSONArray("items");
-                            for (int i = 0; i < items.length(); i++)
-                            {
-                                JSONObject c = items.getJSONObject(i);
-                                JSONObject images = c.getJSONObject("images");
-
-                                JSONObject url = images.getJSONObject("standard_resolution");
-                                String x = url.getString("url");
-                                Log.i("xxxxxxxxx",x);
-                                imgs.add(i,x);
-                            }
-
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-
-                        Json json = new Json();
-                        imgs = json.jsonshow(response);
+                        json.jsonshow(response);
+                        imgs = json.full_object;
                         adapter = new MyRecyclerViewAdapter(getApplicationContext(), imgs);
                         recyclerView.setAdapter(adapter);
                         mProgressDialog.dismiss();
+
+                        for (int i=0;i<20;i++) {
+                            Log.i("Main Activity",imgs.get(i).getImage_Url());
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

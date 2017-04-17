@@ -8,6 +8,15 @@
     android:orientation="vertical"
     tools:context="com.example.home.think_natalia.MainActivity">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="load more"
+        style="?android:textAppearanceLarge"
+        android:background="#000000"
+        android:textColor="#ffffff"
+        android:id="@+id/btn"
+        />
     <android.support.v7.widget.RecyclerView
             android:id="@+id/rvNumbers"
             android:layout_width="match_parent"

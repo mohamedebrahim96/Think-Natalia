@@ -2,6 +2,7 @@ package com.example.home.think_natalia;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,10 @@ import java.util.List;
  */
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>{
 
-        List values;
+        List<Item> values;
         Context context1;
 
-        public MyRecyclerViewAdapter(Context context2,List values2){
+        public MyRecyclerViewAdapter(Context context2,List<Item> values2){
 
             values = values2;
             context1 = context2;
@@ -37,9 +38,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         @Override
         public void onBindViewHolder(ViewHolder v, int position){
             //Vholder.textView.setText(values[position]);
+
+            Log.i("Adapter",values.get(position).getImage_Url());
+
             Glide.with(context1)
-                    .load(values.get(position))
+                    .load(values.get(position).getImage_Url())
                     .into(v.imageView);
+            v.textView.setText(values.get(position).getId());
         }
 
         @Override
@@ -59,7 +64,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             super(v);
 
             imageView = (ImageView) v.findViewById(R.id.img);
-
+            textView= (TextView) v.findViewById(R.id.text);
         }
     }
 }
