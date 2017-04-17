@@ -15,4 +15,7 @@ public class Utility {
         return noOfColumns;
     }
 
+    //use this code in Mainactivity
+    //int mNoOfColumns = Utility.calculateNoOfColumns(getApplicationContext());
+
 }

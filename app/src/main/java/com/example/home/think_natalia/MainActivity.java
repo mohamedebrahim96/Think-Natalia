@@ -1,5 +1,6 @@
 package com.example.home.think_natalia;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,22 +37,72 @@ public class MainActivity extends AppCompatActivity {
     String insta = "https://www.instagram.com/thinknatalia/media/";
     MyRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
+    ProgressDialog mProgressDialog;
     List<String> imgs = new ArrayList<>();
-    String img = "https://scontent-cai1-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/17932644_1291959330881402_7509993923306061824_n.jpg";
+    //String img = "https://scontent-cai1-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/17932644_1291959330881402_7509993923306061824_n.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
-        for(int i=0;i<40;i++)
-        {
-            imgs.add(i,img);
-        }
 
-        int mNoOfColumns = Utility.calculateNoOfColumns(getApplicationContext());
+
+        //int mNoOfColumns = Utility.calculateNoOfColumns(getApplicationContext());
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new MyRecyclerViewAdapter(this, imgs);
-        recyclerView.setAdapter(adapter);
+
+
+        volley();
+    }
+    public void volley()
+    {
+
+        mProgressDialog = new ProgressDialog(MainActivity.this);
+        mProgressDialog.setTitle("Android Basic JSoup Tutorial");
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.show();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(insta,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        /*
+                        JSONObject jsonObj = null;
+                        try {
+                            jsonObj = new JSONObject(response);
+                            JSONArray items = jsonObj.getJSONArray("items");
+                            for (int i = 0; i < items.length(); i++)
+                            {
+                                JSONObject c = items.getJSONObject(i);
+                                JSONObject images = c.getJSONObject("images");
+
+                                JSONObject url = images.getJSONObject("standard_resolution");
+                                String x = url.getString("url");
+                                Log.i("xxxxxxxxx",x);
+                                imgs.add(i,x);
+                            }
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }*/
+
+                        Json json = new Json();
+                        imgs = json.jsonshow(response);
+                        adapter = new MyRecyclerViewAdapter(getApplicationContext(), imgs);
+                        recyclerView.setAdapter(adapter);
+                        mProgressDialog.dismiss();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "error Cnnection", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(stringRequest);
     }
 }
