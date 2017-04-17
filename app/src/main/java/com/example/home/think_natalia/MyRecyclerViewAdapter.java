@@ -5,17 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 /**
  * Created by Home on 4/17/2017.
  */
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>{
 
-        String[] values;
+        List values;
         Context context1;
 
-        public MyRecyclerViewAdapter(Context context2,String[] values2){
+        public MyRecyclerViewAdapter(Context context2,List values2){
 
             values = values2;
             context1 = context2;
@@ -30,14 +35,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder Vholder, int position){
-            Vholder.textView.setText(values[position]);
-
+        public void onBindViewHolder(ViewHolder v, int position){
+            //Vholder.textView.setText(values[position]);
+            Glide.with(context1)
+                    .load(values.get(position))
+                    .into(v.imageView);
         }
 
         @Override
         public int getItemCount(){
-            return values.length;
+            return values.size();
         }
 
 
@@ -45,12 +52,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView textView;
+        public ImageView imageView;
 
         public ViewHolder(View v){
 
             super(v);
 
-            textView = (TextView) v.findViewById(R.id.info_text);
+            imageView = (ImageView) v.findViewById(R.id.img);
 
         }
     }
