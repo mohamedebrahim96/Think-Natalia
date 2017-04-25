@@ -1,4 +1,4 @@
-package com.example.home.think_natalia;
+package com.example.home.think_natalia.Volly;
 
 import android.util.Log;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Json {
 
-    List<Item> full_object = new ArrayList<>();
+    public List<Item> full_object ;
 
 
     public void jsonshow(String response)
@@ -23,6 +23,7 @@ public class Json {
         try {
             JSONObject jsonObj = new JSONObject(response);
             JSONArray items = jsonObj.getJSONArray("items");
+            full_object = new ArrayList<>();
             for (int i = 0; i < items.length(); i++)
             {
                 JSONObject c = items.getJSONObject(i);
