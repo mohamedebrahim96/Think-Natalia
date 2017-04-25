@@ -32,7 +32,7 @@ public class VolleyNatalia  implements View.OnClickListener{
     RecyclerView recyclerView;
     ProgressDialog mProgressDialog;
     List<Item> imgs ;
-    Json json = new Json();
+    Json json ;
     Context context;
     Button button;
     String url;
@@ -64,7 +64,7 @@ public class VolleyNatalia  implements View.OnClickListener{
                     @Override
                     public void onResponse(String response) {
 
-
+                        json= new Json();
                         imgs = new ArrayList<>();
 
                         json.jsonshow(response);
