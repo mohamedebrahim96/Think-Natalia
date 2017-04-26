@@ -1,4 +1,4 @@
-package com.example.home.think_natalia;
+package com.example.home.think_natalia.Volly;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.home.think_natalia.Volly.Item;
+import com.example.home.think_natalia.MainActivity;
+import com.example.home.think_natalia.R;
 
 import java.util.List;
 
@@ -27,7 +28,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             values = values2;
             context1 = context2;
         }
-        @Override
+
+
+
+    @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
 
             View view1 = LayoutInflater.from(context1).inflate(R.layout.recyclerview_item,parent,false);
@@ -40,7 +44,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         public void onBindViewHolder(ViewHolder v, int position){
             //Vholder.textView.setText(values[position]);
 
-            Log.i("Adapter",values.get(position).getImage_Url());
+            Log.i("Adapter id: ",values.get(position).getId());
 
             Glide.with(context1)
                     .load(values.get(position).getImage_Url())
