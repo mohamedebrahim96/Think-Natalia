@@ -18,7 +18,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.internal.Util;
-import timber.log.Timber;
 
 /**
  * Created by Home on 2017-04-28.
@@ -57,7 +56,7 @@ public class Caching {
         }
         catch (Exception e)
         {
-            Timber.e( e, "Could not create Cache!" );
+            e.printStackTrace();
         }
         return cache;
     }
