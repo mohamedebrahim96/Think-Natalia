@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.bumptech.glide.util.Util;
+import com.example.home.think_natalia.Retrofit.Caching;
 import com.example.home.think_natalia.Retrofit.Model.Natalia;
 import com.example.home.think_natalia.Retrofit.NataliaInterface;
 import com.example.home.think_natalia.Retrofit.RetroAdapter;
@@ -19,8 +20,10 @@ import com.example.home.think_natalia.Retrofit.RetrofitNatalia;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,6 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,29 +45,22 @@ public class MainActivity extends AppCompatActivity {
     Button loadmore;
 
     //////////////////////////////////
-    Retrofit retrofit5;
-    private static Context context;
+    private static final String CACHE_CONTROL = "Cache-Control";
+
 
     //////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //vol.volley(insta);
-        context = this;
-         recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
-         loadmore = (Button) findViewById(R.id.btn);
+
+        recyclerView = (RecyclerView) findViewById(R.id.rvNumbers);
+        loadmore = (Button) findViewById(R.id.btn);
 
 
 
-
-        retrofit5 = new Retrofit.Builder()
-                .baseUrl("https://www.instagram.com/thinknatalia/")
-                //.client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        anInterface = retrofit5.create(NataliaInterface.class);
+        Caching caching = new Caching(MainActivity.this);
+        anInterface = RetrofitNatalia.getClient().create(NataliaInterface.class);
         Call<Natalia> call = anInterface.getposts();
         call.enqueue(new Callback<Natalia>() {
             @Override
@@ -102,31 +99,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
-        @Override
-        public okhttp3.Response intercept(Chain chain) throws IOException {
-            okhttp3.Response originalResponse = chain.proceed(chain.request());
-            if (isNetworkAvailable(context)) {
-                int maxAge = 60; // read from cache for 1 minute
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, max-age=" + maxAge)
-                        .build();
-            } else {
-                int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .build();
-            }
-        }
-    };
-    public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-    }
-
 }
